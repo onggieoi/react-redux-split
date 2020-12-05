@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -7,6 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div>Hello world</div>
+        <a href="blabla">learn react</a>
       </header>
     </div>
   );
