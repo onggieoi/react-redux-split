@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - docker-build
+  - deploy
 
 build:
   stage: build
@@ -36,3 +37,14 @@ docker-build:
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
+
+deploy:
+  stage: deploy
+  image: kroniak/ssh-client
+  before_script:
+    - echo "deploying app"
+  script:
+    - chmod 400 $SSH_PRIVATE_KEY
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER_NAME@$PROD_SERVER_IP "docker pull registry.gitlab.com/onggieoi/test-cicd"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER_NAME@$PROD_SERVER_IP "docker stop test-cicd || true && docker rm test-cicd || true"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER_NAME@$PROD_SERVER_IP "docker run -p 3000:80 -d --name test-cicd registry.gitlab.com/onggieoi/test-cicd"
