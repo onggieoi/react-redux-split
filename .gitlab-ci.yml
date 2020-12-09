@@ -44,8 +44,7 @@ deploy:
   before_script:
     - echo "deploying app"
   script:
-    # - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > key.pem
-    # - chmod 400 key.pem
+    - chmod 400 $SSH_PRIVATE_KEY
     - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER_NAME@$PROD_SERVER_IP "docker pull registry.gitlab.com/onggieoi/test-cicd"
     - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER_NAME@$PROD_SERVER_IP "docker stop test-cicd || true && docker rm test-cicd || true"
     - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER_NAME@$PROD_SERVER_IP "docker run -p 3000:80 -d --name test-cicd registry.gitlab.com/onggieoi/test-cicd"
