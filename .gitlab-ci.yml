@@ -24,7 +24,7 @@ test:
   script:
     - echo "Testing App"
     - npm install --force
-    - npm test --passWithNoTests
+    - npm test
     - echo "Test successfully!"
 
 docker-build:
