@@ -11,7 +11,7 @@
     "@types/react-dom": "^16.9.8",
     "connected-react-router": "^6.8.0",
     "fontfaceobserver": "^2.1.0",
-    "history": "^5.0.0",
+    "history": "^4.9.0",
     "immer": "^8.0.0",
     "invariant": "^2.2.4",
     "lodash": "^4.17.20",
