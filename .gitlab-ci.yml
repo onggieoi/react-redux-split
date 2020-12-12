@@ -24,7 +24,7 @@ test:
   script:
     - echo "Testing App"
     - npm install --force
-    - CI=true npm test
+    - npm test
     - echo "Test successfully!"
 
 docker-build:
