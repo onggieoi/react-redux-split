@@ -9,7 +9,7 @@ build:
   image: node
   script:
     - echo "Start building App"
-    - npm install
+    - npm install --force
     - npm build
     - echo "Build successfully!"
   artifacts:
@@ -23,7 +23,7 @@ test:
   image: node
   script:
     - echo "Testing App"
-    - npm install
+    - npm install --force
     - CI=true npm test
     - echo "Test successfully!"
 
