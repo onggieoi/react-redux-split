@@ -41,8 +41,6 @@ export const Homepage: React.FC<Props> = ({
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
-  console.log(username, loading, error, repos);
-
   return (
     <>
       <Helmet>
