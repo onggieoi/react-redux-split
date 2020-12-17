@@ -17,6 +17,8 @@ import { changeUsername } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
+import './Home.css'
+
 const key = 'home';
 
 type Props = {
@@ -51,6 +53,12 @@ export const Homepage: React.FC<Props> = ({
         />
       </Helmet>
       <div>HomePage</div>
+      <form onSubmit={onSubmitForm}>
+        <input type="text" value={username} onChange={onChangeUsername}/>
+      </form>
+      <div className='repos'>
+        {repos?.length > 0 ? JSON.stringify(repos) : null }
+      </div>
     </>
   );
 }

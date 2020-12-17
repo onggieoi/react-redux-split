@@ -17,11 +17,6 @@ function App() {
       >
         <meta name="description" content="A React test application" />
       </Helmet>
-      <div className="App">
-        <header className="App-header">
-          <a href="blabla">learn react</a>
-        </header>
-      </div>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />

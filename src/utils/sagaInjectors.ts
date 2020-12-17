@@ -1,40 +1,12 @@
-import invariant from 'invariant';
-import { isEmpty, isFunction, isString, conformsTo } from 'lodash';
+import { DAEMON, ONCE_TILL_UNMOUNT } from './constants';
 
-import checkStore from './checkStore';
-import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from './constants';
-
-const allowedModes = [RESTART_ON_REMOUNT, DAEMON, ONCE_TILL_UNMOUNT];
-
-const checkKey = (key: string) =>
-  invariant(
-    isString(key) && !isEmpty(key),
-    '(app/utils...) injectSaga: Expected `key` to be a non empty string',
-  );
-
-const checkDescriptor = (descriptor: any) => {
-  const shape = {
-    saga: isFunction,
-    mode: (mode: string) => isString(mode) && allowedModes.includes(mode),
-  };
-  invariant(
-    conformsTo(descriptor, shape),
-    '(app/utils...) injectSaga: Expected a valid saga descriptor',
-  );
-};
-
-export function injectSagaFactory(store: any, isValid: boolean) {
+export function injectSagaFactory(store: any) {
   return function injectSaga(key: string, descriptor: any = {}, args?: any) {
-    if (!isValid) checkStore(store);
-
     const newDescriptor = {
       ...descriptor,
       mode: descriptor.mode || DAEMON,
     };
     const { saga, mode } = newDescriptor;
-
-    checkKey(key);
-    checkDescriptor(newDescriptor);
 
     let hasSaga = Reflect.has(store.injectedSagas, key);
 
@@ -61,12 +33,8 @@ export function injectSagaFactory(store: any, isValid: boolean) {
   };
 };
 
-export function ejectSagaFactory(store: any, isValid: boolean) {
+export function ejectSagaFactory(store: any) {
   return function ejectSaga(key: string) {
-    if (!isValid) checkStore(store);
-
-    checkKey(key);
-
     if (Reflect.has(store.injectedSagas, key)) {
       const descriptor = store.injectedSagas[key];
       if (descriptor.mode && descriptor.mode !== DAEMON) {
@@ -82,10 +50,8 @@ export function ejectSagaFactory(store: any, isValid: boolean) {
 }
 
 export default function getInjectors(store: any) {
-  checkStore(store);
-
   return {
-    injectSaga: injectSagaFactory(store, true),
-    ejectSaga: ejectSagaFactory(store, true),
+    injectSaga: injectSagaFactory(store),
+    ejectSaga: ejectSagaFactory(store),
   };
 }

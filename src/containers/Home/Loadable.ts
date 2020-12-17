@@ -4,4 +4,4 @@
 
 import loadable from 'src/utils/loadable';
 
-export default loadable(() => import('./index'));
+export default loadable(async () => await import('./index'));

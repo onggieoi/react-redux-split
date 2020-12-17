@@ -1,0 +1,5 @@
+.repos {
+  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: hidden;
+}
